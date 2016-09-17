@@ -1,6 +1,6 @@
 clear;
 run matlab/vl_setupnn ;
-net = load('imagenet-vgg-f.mat') ;
+net = load('../../MatconvCNNmodels/imagenet-vgg-f.mat') ;
 net = vl_simplenn_tidy(net) ;
 path = '.';
 
@@ -26,18 +26,18 @@ scores = squeeze(gather(res(end).x)) ;
 
  
 figure(1) ;
-
-for i=1:numi
-subplot(4,5,i);
- image(  oim(:,:,:,i) ) ;
-title(sprintf(' (%d), score %.3f',...
-     best(i), bestScore(i))) ;
-end
-
-for i=1:20
-    figure(1+i)
-    for j=1:numi
-        subplot(4,5,j);
-        imagesc(res(9).x(:,:,i,j));
-    end
-end
+% 
+% for i=1:numi
+% subplot(4,5,i);
+%  image(  oim(:,:,:,i) ) ;
+% title(sprintf(' (%d), score %.3f',...
+%      best(i), bestScore(i))) ;
+% end
+% 
+% for i=1:20
+%     figure(1+i)
+%     for j=1:numi
+%         subplot(4,5,j);
+%         imagesc(res(9).x(:,:,i,j));
+%     end
+% end
