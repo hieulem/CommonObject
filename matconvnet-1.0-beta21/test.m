@@ -1,43 +1,29 @@
 clear;
 run matlab/vl_setupnn ;
-net = load('../../MatconvCNNmodels/imagenet-vgg-f.mat') ;
+net = load('../../MatconvCNNmodels/imagenet-vgg-verydeep-19.mat') ;
 net = vl_simplenn_tidy(net) ;
-path = '.';
+path = 'n02787622';
 
-filel = dir(['*.JPEG']);
+filel = dir([path,'/*.JPEG']);
 numi = length(filel);
 figure(1);
 for i=1:numi
-  im = imread(filel(i).name);
+  im = imread(fullfile(path,filel(i).name));
+  if size(im,3) ==1
+      im = repmat(im,[1,1,3]);
+  end
 
 
   im_ = imresize(im, net.meta.normalization.imageSize(1:2)) ;
    oim(:,:,:,i) = im_;
      im_ = single(im_) ; % note: 255 range
-  im_ = im_ - net.meta.normalization.averageImage ;
+   avgim = repmat(  net.meta.normalization.averageImage,[224,224,1]);
+   im_ = im_ - avgim;
+  
+  %im_ = im_ - net.meta.normalization.averageImage ;
+  
   bim(:,:,:,i) = im_;
 
 end
 res = vl_simplenn(net,bim) ;
-
-% Show the classification result.
-scores = squeeze(gather(res(end).x)) ;
-[bestScore, best] = max(scores) ;
-
- 
-figure(1) ;
-% 
-% for i=1:numi
-% subplot(4,5,i);
-%  image(  oim(:,:,:,i) ) ;
-% title(sprintf(' (%d), score %.3f',...
-%      best(i), bestScore(i))) ;
-% end
-% 
-% for i=1:20
-%     figure(1+i)
-%     for j=1:numi
-%         subplot(4,5,j);
-%         imagesc(res(9).x(:,:,i,j));
-%     end
-% end
+check
