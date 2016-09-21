@@ -13,7 +13,7 @@ dataE = mean(score,2);
 
 figure(1) ;
 % 
-for i=1:numi
+for i=1:min(50,numi)
 subplot(5,10,i);
  image(  oim(:,:,:,i) ) ;
 end
@@ -23,7 +23,7 @@ end
 for k =1:5
     figure(1+k)
 i = id(k);   
-    for j=1:numi
+    for j=1:min(50,numi)
        subplot(5,10,j);
         imagesc(res(layer).x(:,:,i,j));
     end

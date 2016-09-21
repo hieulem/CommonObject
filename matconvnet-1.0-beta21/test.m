@@ -2,9 +2,9 @@ clear;
 run matlab/vl_setupnn ;
 net = load('../../MatconvCNNmodels/imagenet-vgg-verydeep-19.mat') ;
 net = vl_simplenn_tidy(net) ;
-path = 'n02787622';
+path = 'caltech/airplanes';
 
-filel = dir([path,'/*.JPEG']);
+filel = dir([path,'/*.jpg']);
 numi = length(filel);
 figure(1);
 for i=1:numi
@@ -25,5 +25,6 @@ for i=1:numi
   bim(:,:,:,i) = im_;
 
 end
-res = vl_simplenn(net,bim) ;
+res = get_netres(net,bim,256);
+%res = vl_simplenn(net,bim) ;
 check
