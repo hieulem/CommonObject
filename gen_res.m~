@@ -1,12 +1,15 @@
-clear;
-run matlab/vl_setupnn ;
-net = load('../../MatconvCNNmodels/imagenet-vgg-verydeep-19.mat') ;
-net = vl_simplenn_tidy(net) ;
-path = 'caltech/airplanes';
+function [] = gen_res(net,path)
+
+    res =[];
+    bim=[];
+    oim=[];
+
 
 filel = dir([path,'/*.jpg']);
 numi = length(filel);
-figure(1);
+numi
+bim = single(zeros(224,224,3,numi));
+
 for i=1:numi
   im = imread(fullfile(path,filel(i).name));
   if size(im,3) ==1
@@ -25,6 +28,10 @@ for i=1:numi
   bim(:,:,:,i) = im_;
 
 end
-res = get_netres(net,bim,256);
+layer = 37;
+res = get_netres(net,bim,32,layer);
 %res = vl_simplenn(net,bim) ;
-check
+%check
+spath = '../qualres/';
+mkdir([spath,path]);
+save([spath,path,'/data.mat'],'res');
