@@ -5,12 +5,10 @@ net = load('../MatconvCNNmodels/imagenet-vgg-verydeep-19.mat') ;
 net = vl_simplenn_tidy(net) ;
 datasetpath = 'caltech';
 dataset = dir(datasetpath);
-parfor c =1:length(dataset)
+for c =64:64
 if dataset(c).name(1) ~= '.'
     path = ['caltech/', dataset(c).name]
-    for i=35:37
-        gen_res(net,path,i)
-    end
+    gen_res_all_layers(net,path);
 end
 end
 
